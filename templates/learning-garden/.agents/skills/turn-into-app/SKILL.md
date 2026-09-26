@@ -247,8 +247,8 @@ scaffold command. This is the user's one cheap chance to catch a misread —
 after this point a correction costs a rebuild. A few lines per item; it is a
 checkpoint, not a document.
 
-State it and keep going. Do not wait for approval; see _Non-interactive by
-default_. A brief that appears only in the handoff does not count — by then it
+State it and keep going. Do not wait for approval; see *Non-interactive by
+default*. A brief that appears only in the handoff does not count — by then it
 cannot change anything.
 
 The brief covers:

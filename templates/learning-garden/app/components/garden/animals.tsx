@@ -1,18 +1,30 @@
 import type { SVGProps } from "react";
 
+import { cn } from "@/lib/utils";
+
 /**
- * Simple, calm, rounded farm-animal illustrations. Flat shapes only — no
- * texture/noise/gradients that read as "busy" on a screen a child stares at
- * for a while. Each icon fills with a token color (never a raw hex) so light
- * and dark mode both stay legible; see the `--garden-*` tokens in global.css.
+ * Simple, calm, rounded farm-animal illustrations. Flat color fills only — no
+ * texture/noise or busy multi-hue gradients that read as "busy" on a screen a
+ * child stares at for a while. A single soft drop-shadow (`drop-shadow-sm`,
+ * the same neutral shadow every card/button already uses) is the only depth
+ * cue, for a gentle "sitting on the page" feel without adding visual noise.
+ * Each icon fills with a token color (never a raw hex) so light and dark mode
+ * both stay legible; see the `--garden-*` tokens in global.css.
  */
 
 function Base({
   children,
+  className,
   ...props
 }: SVGProps<SVGSVGElement> & { children: React.ReactNode }) {
   return (
-    <svg viewBox="0 0 100 100" role="img" aria-hidden="true" {...props}>
+    <svg
+      viewBox="0 0 100 100"
+      role="img"
+      aria-hidden="true"
+      className={cn("drop-shadow-sm", className)}
+      {...props}
+    >
       {children}
     </svg>
   );

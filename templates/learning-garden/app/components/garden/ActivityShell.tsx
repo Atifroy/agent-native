@@ -47,7 +47,11 @@ export function ActivityShell({
       </p>
 
       <div className="flex w-full max-w-2xl flex-1 flex-col items-center justify-center">
-        <div className="grid w-full grid-cols-2 gap-4 sm:grid-cols-3">
+        {/* flex-wrap + justify-center (not a fixed-column grid) so a choice
+            count that doesn't evenly fill a row — 3 choices at phone width,
+            or the max 4 — centers its last row instead of stranding one
+            tile alone on the left. */}
+        <div className="flex w-full flex-wrap justify-center gap-4">
           {children}
         </div>
       </div>

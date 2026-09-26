@@ -31,7 +31,11 @@ test.describe("Rayya's Learning Garden", () => {
 
     // Either "Yes!" (correct) or "Try again!" (incorrect) — both are calm,
     // neither is a red error state, and the same choices remain on screen.
-    await expect(page.getByRole("status")).toBeVisible();
+    // Scoped to the feedback text itself: a bare role("status") also matches
+    // the local-dev "alpha" environment badge that's always present here.
+    await expect(
+      page.getByRole("status").filter({ hasText: /^(Yes!|Try again!)$/ }),
+    ).toBeVisible();
     await expect(choices).toHaveCount(3);
   });
 });

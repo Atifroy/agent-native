@@ -85,16 +85,16 @@ The client transport treats that 204 as a refusal that happened before the strea
 
 Common sources you'll fold into query keys:
 
-| Source           | Bumped by                                                                  |
-| ---------------- | -------------------------------------------------------------------------- |
-| `action`         | The agent runner after every successful mutating action tool call          |
-| `app-state`      | Writes to `application_state` (navigation, selections, ephemeral UI state) |
-| `settings`       | Writes to the `settings` table                                             |
-| `dashboards`     | Dashboard CRUD via `upsertDashboard` / `archiveDashboard` etc.             |
-| `analyses`       | Analysis CRUD                                                              |
-| `extensions`     | Extension CRUD                                                             |
-| `collab`         | Yjs collaborative-doc updates                                              |
-| `screen-refresh` | Explicit `refresh-screen` agent tool call                                  |
+| Source            | Bumped by                                                                   |
+| ----------------- | --------------------------------------------------------------------------- |
+| `action`          | The agent runner after every successful mutating action tool call           |
+| `app-state`       | Writes to `application_state` (navigation, selections, ephemeral UI state)  |
+| `settings`        | Writes to the `settings` table                                              |
+| `dashboards`      | Dashboard CRUD via `upsertDashboard` / `archiveDashboard` etc.              |
+| `analyses`        | Analysis CRUD                                                               |
+| `extensions`      | Extension CRUD                                                              |
+| `collab`          | Yjs collaborative-doc updates                                               |
+| `screen-refresh`  | Explicit `refresh-screen` agent tool call                                   |
 
 If a query reads data the agent can mutate via more than one path, depend on multiple sources with `useChangeVersions`:
 
@@ -119,12 +119,12 @@ useQuery({
 
 ## Troubleshooting
 
-| Symptom                            | Check                                                                                                                                                                                                                                                                                       |
-| ---------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| UI not updating after agent writes | Is `useDbSync` called with the correct `queryClient`? Does the affected query have an active observer?                                                                                                                                                                                      |
-| Poll endpoint not responding       | Is `/_agent-native/poll` accessible? Is the server running?                                                                                                                                                                                                                                 |
-| SSE not connecting                 | On a production serverless deploy this is expected — the server refuses the stream on purpose (see Why) and the client reports `poll-live` so cadence stays normal. Otherwise: is `/_agent-native/events` accessible and authenticated? Polling should still keep the UI fresh as fallback. |
-| High CPU / event storms            | Use targeted source keys, settle bursty list counters, and avoid broad action invalidation.                                                                                                                                                                                                 |
+| Symptom                            | Check                                                                                                          |
+| ---------------------------------- | -------------------------------------------------------------------------------------------------------------- |
+| UI not updating after agent writes | Is `useDbSync` called with the correct `queryClient`? Does the affected query have an active observer?         |
+| Poll endpoint not responding       | Is `/_agent-native/poll` accessible? Is the server running?                                                    |
+| SSE not connecting                 | On a production serverless deploy this is expected — the server refuses the stream on purpose (see Why) and the client reports `poll-live` so cadence stays normal. Otherwise: is `/_agent-native/events` accessible and authenticated? Polling should still keep the UI fresh as fallback.   |
+| High CPU / event storms            | Use targeted source keys, settle bursty list counters, and avoid broad action invalidation.                   |
 
 ## Jitter Prevention
 
@@ -211,18 +211,16 @@ When the agent renames the record, the query refetches, `props.title` updates, b
 import { useReconciledState } from "@agent-native/core/client/hooks";
 
 // `active` = true while the user is editing this field (focused / dirty).
-const [title, setTitle] = useReconciledState(props.title, {
-  active: isEditing,
-});
+const [title, setTitle] = useReconciledState(props.title, { active: isEditing });
 ```
 
 **Collaborative rich-text editors are different** — they don't copy a value into `useState`. They reconcile authoritative SQL content into a shared Y.Doc under an `updatedAt` gate with lead-client election. See `real-time-collab` → "Agent edits as a real-time peer editor". Don't reach for `useReconciledState` for a Yjs-backed editor.
 
-| Surface                                                                        | Keep it fresh with                                                             |
-| ------------------------------------------------------------------------------ | ------------------------------------------------------------------------------ |
-| React Query reads                                                              | `useChangeVersion` / `useActionQuery` (above)                                  |
-| Local edit state copied from a server value (inputs, popovers, inline editors) | `useReconciledState(externalValue, { active })`                                |
-| Collaborative rich-text editor (Yjs)                                           | `updatedAt`-gated reconcile + `isReconcileLeadClient` — see `real-time-collab` |
+| Surface | Keep it fresh with |
+| ------- | ------------------ |
+| React Query reads | `useChangeVersion` / `useActionQuery` (above) |
+| Local edit state copied from a server value (inputs, popovers, inline editors) | `useReconciledState(externalValue, { active })` |
+| Collaborative rich-text editor (Yjs) | `updatedAt`-gated reconcile + `isReconcileLeadClient` — see `real-time-collab` |
 
 ## Granular server-side merge for non-body fields
 

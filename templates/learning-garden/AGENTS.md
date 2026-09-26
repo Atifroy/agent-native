@@ -14,6 +14,8 @@ and free of dashboard/score framing.
 
 ## Core Rules
 
+- UI feedback: target 100 ms, never exceed 400 ms; acknowledge before network work.
+- For external integrations, inspect the workspace/provider connection catalog first; reuse its scoped resolver.
 - Never suggest timers, countdowns, scores, or competitive framing — the
   product intentionally has none of these.
 - A wrong tap is never a punishing failure state: the round keeps the same

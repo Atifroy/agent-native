@@ -95,8 +95,8 @@ export function Layout({ children }: { children: React.ReactNode }) {
           suppressHydrationWarning
           dangerouslySetInnerHTML={{ __html: LOCALE_INIT_SCRIPT }}
         />
-        {/* guard:allow-raw-color — browser chrome meta tag; mirrors --background dark, cannot reference a CSS var */}
-        <meta name="theme-color" content="#18181B" />
+        {/* guard:allow-raw-color — browser chrome meta tag; mirrors the calm --garden-sky pastel, cannot reference a CSS var */}
+        <meta name="theme-color" content="#599dc0" />
         <meta name="mobile-web-app-capable" content="yes" />
         <meta
           name="apple-mobile-web-app-status-bar-style"

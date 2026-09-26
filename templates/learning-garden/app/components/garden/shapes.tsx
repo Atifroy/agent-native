@@ -1,5 +1,7 @@
 import type { SVGProps } from "react";
 
+import { cn } from "@/lib/utils";
+
 export type ShapeId = "circle" | "square" | "triangle" | "star";
 export type ColorId = "red" | "blue" | "yellow" | "green" | "purple";
 
@@ -20,11 +22,18 @@ export function colorToken(color: ColorId): string {
 export function ShapeIcon({
   shape,
   color,
+  className,
   ...props
 }: { shape: ShapeId; color: ColorId } & SVGProps<SVGSVGElement>) {
   const fill = colorToken(color);
   return (
-    <svg viewBox="0 0 100 100" role="img" aria-hidden="true" {...props}>
+    <svg
+      viewBox="0 0 100 100"
+      role="img"
+      aria-hidden="true"
+      className={cn("drop-shadow-sm", className)}
+      {...props}
+    >
       {shape === "circle" && <circle cx="50" cy="50" r="34" fill={fill} />}
       {shape === "square" && (
         <rect x="18" y="18" width="64" height="64" rx="10" fill={fill} />

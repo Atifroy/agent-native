@@ -41,12 +41,12 @@ Every migration must also be backward compatible, not just additive. Beta and pr
 
 ### Core SQL Stores (auto-created, available in all templates)
 
-| Store               | Purpose                                          | Access                               |
-| ------------------- | ------------------------------------------------ | ------------------------------------ |
-| `application_state` | Ephemeral UI state (compose windows, navigation) | `readAppState()` / `writeAppState()` |
-| `settings`          | Persistent KV config (preferences, app settings) | `getSetting()` / `putSetting()`      |
-| `oauth_tokens`      | OAuth credentials                                | `@agent-native/core/oauth-tokens`    |
-| `sessions`          | Auth sessions                                    | `@agent-native/core/server`          |
+| Store               | Purpose                                              | Access                                     |
+| ------------------- | ---------------------------------------------------- | ------------------------------------------ |
+| `application_state` | Ephemeral UI state (compose windows, navigation)     | `readAppState()` / `writeAppState()`       |
+| `settings`          | Persistent KV config (preferences, app settings)     | `getSetting()` / `putSetting()`            |
+| `oauth_tokens`      | OAuth credentials                                    | `@agent-native/core/oauth-tokens`          |
+| `sessions`          | Auth sessions                                        | `@agent-native/core/server`               |
 
 ### Domain Data (per-template)
 
@@ -60,9 +60,7 @@ export const tasks = pgTable("tasks", {
   id: text("id").primaryKey(),
   title: text("title").notNull(),
   completed: boolean("completed").notNull().default(false),
-  createdAt: text("created_at")
-    .notNull()
-    .default(sql`now()`),
+  createdAt: text("created_at").notNull().default(sql`now()`),
 });
 
 const rows = await db.select().from(tasks).where(eq(tasks.id, taskId));
@@ -71,14 +69,14 @@ const rows = await db.select().from(tasks).where(eq(tasks.id, taskId));
 Outside a managed Drizzle scaffold, use `drizzle-orm/pg-core` so app schemas
 state their PostgreSQL types directly.
 
-| Template     | Tables                                      |
-| ------------ | ------------------------------------------- |
-| **Mail**     | emails, labels (+ Gmail API when connected) |
-| **Calendar** | events, bookings                            |
-| **Forms**    | forms, responses                            |
-| **Content**  | documents                                   |
-| **Slides**   | decks (JSON stored in SQL)                  |
-| **Videos**   | compositions in registry + localStorage     |
+| Template     | Tables                                        |
+| ------------ | --------------------------------------------- |
+| **Mail**     | emails, labels (+ Gmail API when connected)   |
+| **Calendar** | events, bookings                              |
+| **Forms**    | forms, responses                              |
+| **Content**  | documents                                     |
+| **Slides**   | decks (JSON stored in SQL)                    |
+| **Videos**   | compositions in registry + localStorage       |
 
 ### Agent Access
 
@@ -92,16 +90,16 @@ The agent uses app-specific actions to read/write the database. Core DB scripts 
 
 **For one-off maintenance, how to choose between `db-exec UPDATE` and `db-patch`:**
 
-| Scenario                                                       | Use                    |
-| -------------------------------------------------------------- | ---------------------- |
-| `SET status = 'published'` on one row                          | `db-exec`              |
-| `SET calories = calories + 50`                                 | `db-exec`              |
-| Updating several columns at once                               | `db-exec`              |
-| Inserting/updating several rows as one logical operation       | `db-exec --statements` |
-| Fixing a typo in a 50KB markdown document's `content` column   | `db-patch`             |
-| Changing a single key in a dashboard's JSON blob               | `db-patch`             |
-| Tweaking one paragraph of slide HTML stored in `decks.data`    | `db-patch`             |
-| Any edit where you'd otherwise re-send thousands of characters | `db-patch`             |
+| Scenario                                                       | Use          |
+| -------------------------------------------------------------- | ------------ |
+| `SET status = 'published'` on one row                          | `db-exec`    |
+| `SET calories = calories + 50`                                 | `db-exec`    |
+| Updating several columns at once                               | `db-exec`    |
+| Inserting/updating several rows as one logical operation        | `db-exec --statements` |
+| Fixing a typo in a 50KB markdown document's `content` column   | `db-patch`   |
+| Changing a single key in a dashboard's JSON blob               | `db-patch`   |
+| Tweaking one paragraph of slide HTML stored in `decks.data`    | `db-patch`   |
+| Any edit where you'd otherwise re-send thousands of characters | `db-patch`   |
 
 All of these honor the per-user / per-org data scoping — you can't read or write rows outside the current user's data, regardless of which tool you choose.
 
@@ -110,10 +108,7 @@ All of these honor the per-user / per-org data scoping — you can't read or wri
 The frontend calls actions using React Query hooks from the client API. The framework owns the HTTP transport behind these hooks, so components should not call action routes with raw `fetch`.
 
 ```ts
-import {
-  useActionQuery,
-  useActionMutation,
-} from "@agent-native/core/client/hooks";
+import { useActionQuery, useActionMutation } from "@agent-native/core/client/hooks";
 
 // Read data
 const { data } = useActionQuery("list-meals", { date: "2025-01-01" });
@@ -130,6 +125,8 @@ Local PGlite works out of the box for development. To deploy to production or an
 
 1. Set `DATABASE_URL` to a persistent hosted PostgreSQL database.
 2. Keep schema and queries PostgreSQL-compatible.
+
+
 
 ### Real-time Sync
 

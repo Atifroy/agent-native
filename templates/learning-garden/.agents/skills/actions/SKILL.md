@@ -16,7 +16,7 @@ metadata:
 
 Actions in `actions/` are the **single source of truth** for app operations. The agent calls them as tools, the frontend calls them through `useActionQuery` / `useActionMutation`, and the framework owns the HTTP transport behind those hooks — no duplicate `/api/` routes.
 
-Before creating any custom route for app data, check `actions/` and the action table in `AGENTS.md`. An action already exists? Call it directly. Missing? Create or update a `defineAction`. **Stop trigger:** about to add a file under `server/routes/api/` (or middleware to guard one)? Check it against the exception list in _Custom `/api/` Routes_ below first — even if you already started the route.
+Before creating any custom route for app data, check `actions/` and the action table in `AGENTS.md`. An action already exists? Call it directly. Missing? Create or update a `defineAction`. **Stop trigger:** about to add a file under `server/routes/api/` (or middleware to guard one)? Check it against the exception list in *Custom `/api/` Routes* below first — even if you already started the route.
 
 ## Keep Actions Deterministic
 
@@ -54,7 +54,7 @@ export default defineAction({
 
 Use Drizzle's PostgreSQL query builder, not raw SQL/`getDbExec()` or direct driver imports, unless Drizzle can't express the query. Never hardcode API keys/tokens/secrets - read via `readAppSecret` / `resolveCredential` / OAuth helpers; `process.env` is deploy-level config only.
 
-**Decision order:** existing action → extend/create a `defineAction` → custom route as last resort (_Custom `/api/` Routes_ below). Actions are already callable by agents, CLIs, hooks, HTTP, and MCP/A2A — don't wrap them in an umbrella REST API.
+**Decision order:** existing action → extend/create a `defineAction` → custom route as last resort (*Custom `/api/` Routes* below). Actions are already callable by agents, CLIs, hooks, HTTP, and MCP/A2A — don't wrap them in an umbrella REST API.
 
 ## Keep the Action Surface Small and Orthogonal
 
@@ -67,19 +67,19 @@ Every agent-exposed action is a tool in the model's context window; more tools d
 
 ## Key Actions — One Index, Every Surface
 
-Name the app's key actions for common intents (create X, edit the selection, add an item, restyle, share/export) exactly once. The MCP/WebMCP "Key tools" line is generated from `mcp.keyToolNames ?? initialToolNames`, filtered to the tools that surface serves — the action table in `AGENTS.md` may list more of the app's agent-facing actions than that generated subset, but every name in either place must be a real action, and the two must not disagree about what the key ones are. Do not hand-write a second tool list in `mcp.instructions`, a skill, or an external SKILL.md — describe _when_ to use them there, not _which_ they are.
+Name the app's key actions for common intents (create X, edit the selection, add an item, restyle, share/export) exactly once. The MCP/WebMCP "Key tools" line is generated from `mcp.keyToolNames ?? initialToolNames`, filtered to the tools that surface serves — the action table in `AGENTS.md` may list more of the app's agent-facing actions than that generated subset, but every name in either place must be a real action, and the two must not disagree about what the key ones are. Do not hand-write a second tool list in `mcp.instructions`, a skill, or an external SKILL.md — describe *when* to use them there, not *which* they are.
 
 ## The `http` Option
 
 Controls HTTP exposure:
 
-| Value                          | Behavior                            | Use for                             |
-| ------------------------------ | ----------------------------------- | ----------------------------------- |
-| _(omitted)_                    | `POST /_agent-native/actions/:name` | Write operations (default)          |
-| `{ method: "GET" }`            | `GET /_agent-native/actions/:name`  | Read-only queries                   |
-| `{ method: "PUT"/"DELETE" }`   | matching verb                       | Update / delete                     |
-| `{ method: "GET", path: "x" }` | custom route path                   | Non-default path                    |
-| `false`                        | never exposed as HTTP               | `navigate`, `view-screen`, internal |
+| Value | Behavior | Use for |
+| --- | --- | --- |
+| _(omitted)_ | `POST /_agent-native/actions/:name` | Write operations (default) |
+| `{ method: "GET" }` | `GET /_agent-native/actions/:name` | Read-only queries |
+| `{ method: "PUT"/"DELETE" }` | matching verb | Update / delete |
+| `{ method: "GET", path: "x" }` | custom route path | Non-default path |
+| `false` | never exposed as HTTP | `navigate`, `view-screen`, internal |
 
 Mutating actions (anything but `GET`) auto-refresh the UI on success — don't call `refresh-screen` after a normal action. Overrides (`readOnly`, `parallelSafe`) and exact trigger rules: `references/action-fields.md`.
 
@@ -108,14 +108,10 @@ Reach for `outputSchema` (validate the return), `_agentImages` (attach images th
 Use hooks from `@agent-native/core/client`, not hand-written `fetch("/_agent-native/actions/...")`.
 
 ```ts
-import {
-  useActionQuery,
-  useActionMutation,
-  callAction,
-} from "@agent-native/core/client/hooks";
+import { useActionQuery, useActionMutation, callAction } from "@agent-native/core/client/hooks";
 
 const { data: meals } = useActionQuery("list-meals", { date: "2025-01-01" }); // GET, types auto-inferred
-const { mutate } = useActionMutation("log-meal"); // POST/PUT/DELETE
+const { mutate } = useActionMutation("log-meal");                             // POST/PUT/DELETE
 mutate({ name: "Salad", calories: 350 });
 const people = await callAction("search-people", { query }, { method: "GET" }); // imperative (debounce, prefetch)
 ```

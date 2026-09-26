@@ -61,12 +61,12 @@ blank-line sections, or `<context>` tags yourself.
 
 Use the related surface for each kind of supporting input:
 
-| Surface                                      | Use for                                                                                          |
-| -------------------------------------------- | ------------------------------------------------------------------------------------------------ |
-| `message`                                    | User-authored intent or a concise app action description                                         |
-| `context`                                    | Derived metadata and bounded text needed to carry out that intent                                |
-| `setAgentChatContextItem`                    | Context staged for a later user-submitted prompt; keep it keyed so updates replace stale context |
-| `images`, `referenceImagePaths`, attachments | Binary or visual inputs; describe only the handling instructions in `context`                    |
+| Surface | Use for |
+| --- | --- |
+| `message` | User-authored intent or a concise app action description |
+| `context` | Derived metadata and bounded text needed to carry out that intent |
+| `setAgentChatContextItem` | Context staged for a later user-submitted prompt; keep it keyed so updates replace stale context |
+| `images`, `referenceImagePaths`, attachments | Binary or visual inputs; describe only the handling instructions in `context` |
 
 If an app builds a prompt from a form, selection, upload, or editor state, keep
 the visible message short and pass the assembled details as `context`. Preserve
@@ -139,11 +139,11 @@ function MyComponent() {
 
 The `submit` option controls whether the message is sent automatically or placed in the chat input for user review:
 
-| `submit` value | Behavior                              | Use when                                                                        |
-| -------------- | ------------------------------------- | ------------------------------------------------------------------------------- |
-| `true`         | Auto-submits to the agent immediately | Routine operations with clear intent; keep `openSidebar: true` for visible work |
-| `false`        | Prefills the AgentSidebar composer    | Review, edit, or add detail before the run; use the existing sidebar thread     |
-| omitted        | Uses the project's default setting    | General-purpose delegation                                                      |
+| `submit` value | Behavior                                | Use when                                                                            |
+| -------------- | --------------------------------------- | ----------------------------------------------------------------------------------- |
+| `true`         | Auto-submits to the agent immediately   | Routine operations with clear intent; keep `openSidebar: true` for visible work |
+| `false`        | Prefills the AgentSidebar composer      | Review, edit, or add detail before the run; use the existing sidebar thread   |
+| omitted        | Uses the project's default setting      | General-purpose delegation                                                       |
 
 ```ts
 // Auto-submit: routine operation

@@ -37,11 +37,11 @@ action or startup bootstrap just to write a credential for one organization.
 
 ## Google OAuth triage
 
-| Observation                                   | Meaning                                                           | Next action                                                                                                               |
-| --------------------------------------------- | ----------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------- |
-| `invalid_grant` from a deliberately fake code | Google accepted the client pair and rejected only the code        | Do not rotate credentials; check flow state and callback registration                                                     |
-| `invalid_client`                              | Google rejected the client id/secret pair                         | Verify the exact pair and deployment source before rotating                                                               |
-| `redirect_uri_mismatch`                       | The client, host, callback path, and Google registration disagree | Compare that exact tuple in Google Cloud Console; publish a new deploy if site-scoped or build-time configuration changes |
+| Observation | Meaning | Next action |
+| --- | --- | --- |
+| `invalid_grant` from a deliberately fake code | Google accepted the client pair and rejected only the code | Do not rotate credentials; check flow state and callback registration |
+| `invalid_client` | Google rejected the client id/secret pair | Verify the exact pair and deployment source before rotating |
+| `redirect_uri_mismatch` | The client, host, callback path, and Google registration disagree | Compare that exact tuple in Google Cloud Console; publish a new deploy if site-scoped or build-time configuration changes |
 
 Do not reason about this from memory. The probe checks both contracts: the
 unqualified `/health/google` endpoint reports the sign-in contract, while
@@ -184,18 +184,18 @@ row is written — status is derived from `hasOAuthTokens("google")`.
 
 ## Registered options
 
-| Field             | Type                                    | Purpose                                                      |
-| ----------------- | --------------------------------------- | ------------------------------------------------------------ |
-| `key`             | `string`                                | Env-var style name (`OPENAI_API_KEY`). Also the storage key. |
-| `label`           | `string`                                | Human-readable title in the sidebar.                         |
-| `description`     | `string?`                               | Subtitle under the label.                                    |
-| `docsUrl`         | `string?`                               | "Get key" link rendered on the card.                         |
-| `scope`           | `"user" \| "workspace"`                 | Per-user or shared across the active org.                    |
-| `kind`            | `"api-key" \| "oauth"`                  | Drives UI and storage behavior.                              |
-| `required`        | `boolean?`                              | When true, an onboarding step is auto-injected.              |
-| `validator`       | `(v) => Promise<boolean \| {ok,error}>` | Runs on save and from the Test button. Never log `v`.        |
-| `oauthProvider`   | `string?` (oauth-kind only)             | Provider id in `oauth-tokens` that backs this entry.         |
-| `oauthConnectUrl` | `string?` (oauth-kind only)             | URL the Connect button points at.                            |
+| Field              | Type                                    | Purpose                                                                  |
+| ------------------ | --------------------------------------- | ------------------------------------------------------------------------ |
+| `key`              | `string`                                | Env-var style name (`OPENAI_API_KEY`). Also the storage key.             |
+| `label`            | `string`                                | Human-readable title in the sidebar.                                     |
+| `description`      | `string?`                               | Subtitle under the label.                                                |
+| `docsUrl`          | `string?`                               | "Get key" link rendered on the card.                                     |
+| `scope`            | `"user" \| "workspace"`                 | Per-user or shared across the active org.                                |
+| `kind`             | `"api-key" \| "oauth"`                  | Drives UI and storage behavior.                                          |
+| `required`         | `boolean?`                              | When true, an onboarding step is auto-injected.                          |
+| `validator`        | `(v) => Promise<boolean \| {ok,error}>` | Runs on save and from the Test button. Never log `v`.                    |
+| `oauthProvider`    | `string?` (oauth-kind only)             | Provider id in `oauth-tokens` that backs this entry.                     |
+| `oauthConnectUrl`  | `string?` (oauth-kind only)             | URL the Connect button points at.                                        |
 
 ## Reading a secret from an action
 
@@ -420,10 +420,10 @@ place to enter a key that the Vault already provides; label the source instead.
 
 ### Key Files (ad-hoc)
 
-| File                                        | Purpose                                            |
-| ------------------------------------------- | -------------------------------------------------- |
-| `packages/core/src/secrets/substitution.ts` | `resolveKeyReferences()`, `validateUrlAllowlist()` |
-| `packages/core/src/tools/fetch-tool.ts`     | `web-request` tool consuming key references        |
+| File                                           | Purpose                                     |
+| ---------------------------------------------- | ------------------------------------------- |
+| `packages/core/src/secrets/substitution.ts`    | `resolveKeyReferences()`, `validateUrlAllowlist()` |
+| `packages/core/src/tools/fetch-tool.ts`        | `web-request` tool consuming key references |
 
 ## Related skills
 

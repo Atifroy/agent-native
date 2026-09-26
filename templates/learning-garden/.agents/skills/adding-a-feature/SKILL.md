@@ -131,29 +131,29 @@ Expose navigation and selection state so the agent knows what the user is lookin
 
 ### Adding "compose email" to a mail app
 
-| Area           | What to build                                                                                              |
-| -------------- | ---------------------------------------------------------------------------------------------------------- |
-| UI             | Compose panel with tabs, to/cc/bcc fields, body editor. Use `useActionQuery`/`useActionMutation` for data. |
-| Action         | `manage-draft` action (create/update/delete drafts), `send-email` action                                   |
-| Skills/AGENTS  | Document compose state shape, draft lifecycle, action args in AGENTS.md                                    |
-| App-state sync | `compose-{id}` keys for each draft tab, `navigation` includes compose state                                |
+| Area | What to build |
+| --- | --- |
+| UI | Compose panel with tabs, to/cc/bcc fields, body editor. Use `useActionQuery`/`useActionMutation` for data. |
+| Action | `manage-draft` action (create/update/delete drafts), `send-email` action |
+| Skills/AGENTS | Document compose state shape, draft lifecycle, action args in AGENTS.md |
+| App-state sync | `compose-{id}` keys for each draft tab, `navigation` includes compose state |
 
 ### Adding "create form" to a forms app
 
-| Area           | What to build                                                                                    |
-| -------------- | ------------------------------------------------------------------------------------------------ |
-| UI             | Form builder page with drag-and-drop fields, preview, settings. Use `useActionQuery` for lists.  |
-| Action         | `create-form` action, `update-form` action, `list-forms` action (GET)                            |
-| Skills/AGENTS  | Document form schema shape, field types, validation rules in AGENTS.md                           |
+| Area | What to build |
+| --- | --- |
+| UI | Form builder page with drag-and-drop fields, preview, settings. Use `useActionQuery` for lists. |
+| Action | `create-form` action, `update-form` action, `list-forms` action (GET) |
+| Skills/AGENTS | Document form schema shape, field types, validation rules in AGENTS.md |
 | App-state sync | `navigation` includes `{ view: "form-builder", formId: "..." }`, `view-screen` fetches form data |
 
 ### Adding "chart type" to an analytics app
 
-| Area           | What to build                                                                      |
-| -------------- | ---------------------------------------------------------------------------------- |
-| UI             | New chart component, chart type selector in dashboard                              |
-| Action         | `create-chart` or `update-dashboard` action that sets chart type and config        |
-| Skills/AGENTS  | Document supported chart types, config options, data requirements                  |
+| Area | What to build |
+| --- | --- |
+| UI | New chart component, chart type selector in dashboard |
+| Action | `create-chart` or `update-dashboard` action that sets chart type and config |
+| Skills/AGENTS | Document supported chart types, config options, data requirements |
 | App-state sync | `navigation` includes selected chart/dashboard, `view-screen` returns chart config |
 
 ## Adding a new route

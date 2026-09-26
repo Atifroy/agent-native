@@ -61,7 +61,7 @@ export function CountingGame({
       feedback={feedback}
       milestone={milestone}
     >
-      <div className="col-span-2 flex flex-wrap items-center justify-center gap-3 sm:col-span-3">
+      <div className="flex w-full flex-wrap items-center justify-center gap-3">
         {Array.from({ length: round.count }).map((_, index) => (
           <round.animal.Icon
             key={index}
@@ -70,7 +70,7 @@ export function CountingGame({
           />
         ))}
       </div>
-      <div className="col-span-2 grid grid-cols-3 gap-4 sm:col-span-3">
+      <div className="grid w-full grid-cols-3 gap-4">
         {round.choices.map((value) => (
           <ChoiceButton
             key={value}
