@@ -2537,9 +2537,13 @@ function subscribeInMemory(
       // reconnect landing in that window used to get a clean close with no
       // terminal frame, which the client cannot tell from an abandoned turn.
       if (run.status !== "running") {
-        const bufferedTerminalIndex = run.events.findLastIndex((buffered) =>
-          isTerminalRunEvent(buffered.event),
-        );
+        let bufferedTerminalIndex = -1;
+        for (let i = run.events.length - 1; i >= 0; i--) {
+          if (isTerminalRunEvent(run.events[i].event)) {
+            bufferedTerminalIndex = i;
+            break;
+          }
+        }
         if (bufferedTerminalIndex >= 0) {
           // The replay loop above only delivered events at or after `fromSeq`.
           // A cursor already past the terminal event would otherwise close with
