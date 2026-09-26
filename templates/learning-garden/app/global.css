@@ -1,0 +1,146 @@
+/* Self-hosted via @fontsource-variable/inter — no render-blocking Google Fonts request */
+@import "@fontsource-variable/inter";
+
+@import "tailwindcss";
+@import "@agent-native/core/styles/agent-native.css";
+@import "@agent-native/toolkit/styles.css";
+
+@source "./**/*.{ts,tsx}";
+
+:root {
+  --background: 0 0% 100%;
+  --foreground: 220 10% 10%;
+  --card: 0 0% 100%;
+  --card-foreground: 220 10% 10%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 220 10% 10%;
+  --primary: 220 10% 15%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 220 10% 95%;
+  --secondary-foreground: 220 10% 15%;
+  --muted: 220 10% 95%;
+  --muted-foreground: 220 5% 45%;
+  --accent: 220 10% 95%;
+  --accent-foreground: 220 10% 15%;
+  --destructive: 0 91% 71%;
+  --destructive-foreground: 0 0% 98%;
+  --border: 220 10% 90%;
+  --input: 220 10% 90%;
+  --ring: 220 10% 40%;
+  --radius: 0.5rem;
+  --sidebar-background: 220 10% 97%;
+  --sidebar-foreground: 220 5% 45%;
+  --sidebar-primary: 220 10% 15%;
+  --sidebar-primary-foreground: 0 0% 100%;
+  --sidebar-accent: 220 10% 95%;
+  --sidebar-accent-foreground: 220 10% 15%;
+  --sidebar-border: 220 10% 90%;
+  --sidebar-ring: 220 10% 40%;
+
+  /* Calm, muted farm-garden palette. Kept as tokens (not raw hex) so both
+     themes and the guard stay consistent — see the animal/shape components. */
+  --garden-cow: 28 35% 78%;
+  --garden-duck: 45 55% 78%;
+  --garden-sheep: 200 20% 85%;
+  --garden-pig: 350 45% 82%;
+  --garden-horse: 25 30% 60%;
+  --garden-sky: 200 45% 92%;
+  --garden-grass: 100 25% 88%;
+  --garden-glow: 140 40% 80%;
+  --garden-red: 355 55% 78%;
+  --garden-blue: 205 50% 75%;
+  --garden-yellow: 45 60% 75%;
+  --garden-green: 120 30% 72%;
+  --garden-purple: 265 35% 80%;
+}
+
+.dark {
+  --background: 220 6% 6%;
+  --foreground: 0 0% 90%;
+  --card: 220 5% 6%;
+  --card-foreground: 0 0% 90%;
+  --popover: 220 5% 6%;
+  --popover-foreground: 0 0% 90%;
+  --primary: 0 0% 75%;
+  --primary-foreground: 220 6% 6%;
+  --secondary: 220 4% 12%;
+  --secondary-foreground: 0 0% 90%;
+  --muted: 220 4% 10%;
+  --muted-foreground: 220 4% 60%;
+  --accent: 220 4% 13%;
+  --accent-foreground: 0 0% 90%;
+  --destructive: 0 84% 60%;
+  --destructive-foreground: 0 0% 98%;
+  --border: 220 4% 14%;
+  --input: 220 4% 14%;
+  --ring: 0 0% 60%;
+  --radius: 0.5rem;
+  --sidebar-background: 220 6% 4%;
+  --sidebar-foreground: 220 4% 60%;
+  --sidebar-primary: 0 0% 75%;
+  --sidebar-primary-foreground: 220 6% 6%;
+  --sidebar-accent: 220 4% 10%;
+  --sidebar-accent-foreground: 0 0% 90%;
+  --sidebar-border: 220 4% 10%;
+  --sidebar-ring: 0 0% 60%;
+
+  --garden-cow: 28 20% 40%;
+  --garden-duck: 45 30% 42%;
+  --garden-sheep: 200 12% 45%;
+  --garden-pig: 350 25% 45%;
+  --garden-horse: 25 18% 32%;
+  --garden-sky: 200 20% 18%;
+  --garden-grass: 100 12% 20%;
+  --garden-glow: 140 22% 32%;
+  --garden-red: 355 30% 42%;
+  --garden-blue: 205 28% 40%;
+  --garden-yellow: 45 30% 40%;
+  --garden-green: 120 18% 34%;
+  --garden-purple: 265 20% 42%;
+}
+
+@layer base {
+  body {
+    @apply bg-background text-foreground;
+    font-family: "Inter Variable", "Inter", sans-serif;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  }
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: hsl(var(--muted-foreground) / 0.22);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--muted-foreground) / 0.34);
+}
+
+/* Gentle, single-shot pop-in for calm celebratory moments (streak sparkle,
+   correct-answer glow). No looping motion, no strobe. */
+@keyframes garden-pop-in {
+  from {
+    opacity: 0;
+    transform: scale(0.94);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.garden-pop-in {
+  animation: garden-pop-in 400ms ease-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .garden-pop-in {
+    animation: none;
+  }
+}
